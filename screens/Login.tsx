@@ -1,8 +1,13 @@
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Button, Pressable } from "react-native";
 import { StackParamList } from "../typings/StackParamlist";
+
+
+import { useSelector, useDispatch } from "react-redux";
+import { signin } from "../store/features/user/userSlice";
+
 
 type ScreenNavigationType = NativeStackNavigationProp<
     StackParamList,
@@ -16,9 +21,42 @@ export default function Login () {
 
     const navigation = useNavigation<ScreenNavigationType>()
 
-    function handleLogin(){
 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('')
+
+
+
+    useEffect(() => {
+       setEmail('samirali@live.dk');
+       setPassword('123456789')
+    }, [])
+
+
+    const User = useSelector((state:any) => state.user.loggedInUser);
+    const dispatch = useDispatch();
+
+    function handleLogin(){
+       
+
+        if(User ===  {}){
+            console.log('empty');
+        }
+        else{ console.log('not empty')}
+
+        //conditions for email and password
+        if(email.length > 0){
+            if(password.length > 0){
+                dispatch(signin({email, password}))
+            }
+        }
     }
+
+  
+   
+
+
+
     function goToSignup(){
         navigation.navigate('Signup');
     }
@@ -29,6 +67,8 @@ export default function Login () {
         <View style={styles.container}>
             <View style={styles.logo}>
                 <Text style={[styles.title, {textAlign:'center', fontSize:55}]}>MyApp</Text>
+                <Text>{User.email}</Text>
+                <Text>{User.password}</Text>
             </View>
 
             <Text style={styles.title}>Log in</Text>
@@ -36,12 +76,12 @@ export default function Login () {
                 
                 <View style={[styles.inputContainer, styles.elevation]}>
                     <Text style={styles.label}>E-MAIL</Text>
-                    <TextInput style={styles.input} defaultValue="Samirali@live.dk"></TextInput>
+                    <TextInput style={styles.input} onChangeText={setEmail} defaultValue={email}></TextInput>
                 </View>
                 
                 <View style={[styles.inputContainer, styles.elevation]}>
                     <Text style={styles.label}>PASSWORD</Text>
-                    <TextInput style={styles.input} defaultValue="123456789" secureTextEntry></TextInput>
+                    <TextInput style={styles.input} onChangeText={setPassword} defaultValue={password} secureTextEntry></TextInput>
               </View>
 
        

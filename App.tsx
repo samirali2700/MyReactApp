@@ -1,19 +1,14 @@
-
-import { StyleSheet, Text, View } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+//Navigation component that handles all navigation
 import Navigation from './Navigation';
+
+//redux store and provider
+import { Provider } from 'react-redux';
+import store from "./store/store";
 
 export default function App() {
   return (
-   <Navigation></Navigation>
+    <Provider store={store}>
+    <Navigation></Navigation>
+   </Provider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});

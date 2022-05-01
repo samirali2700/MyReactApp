@@ -8,15 +8,23 @@ import Login from "./screens/Login";
 import Signup from "./screens/Signup";
 //Private Screens
 import Home from "./screens/PrivateScreens/Home";
+import { useSelector } from "react-redux";
 
 
 const Stack = createNativeStackNavigator();
 
 function MyStack(){
-    const state = React.useState();
+    
+    const User = useSelector((state:any) => state.user.loggedInUser)
+    const isLoggedIn = useSelector((state:any) => state.user.loggedIn)
+
+
+    console.log(isLoggedIn)
 
     let [isSignedIn, setisSignedIn] = React.useState(false);
     let isLoading = false;
+
+ 
 
     if(isLoading){
         return(
@@ -37,7 +45,7 @@ function MyStack(){
             <>
              <Stack.Navigator screenOptions={ {headerShown: false}}>
                 <Stack.Screen name="Login" component={Login}></Stack.Screen>
-                <Stack.Screen name="Signup" component={Signup} options={{animationTypeForReplace: state.isSigedIn ? 'push' : 'pop'}}></Stack.Screen>
+                <Stack.Screen name="Signup" component={Signup} options={{animationTypeForReplace: isSignedIn ? 'push' : 'pop'}}></Stack.Screen>
             </Stack.Navigator>
         </>
         )
